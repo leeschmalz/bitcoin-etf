@@ -43,3 +43,14 @@ p3 <- ggplot(gbtc_vs_new, aes(x=-GBTC, y=new9_total, label=date)) +
 p3 <- ggplotly(p3, width=12*96, height=8*96)
 saveWidget(p3, file="./plots/outflows_inflows_correlation.html")
 
+p4 <- ggplot(gbtc_vs_new %>% filter(GBTC != 0 & new9_total != 0) %>% rename(`New 9`=new9_total), aes(x = date)) +
+  geom_point(aes(y = GBTC, color = 'GBTC'), shape = 1) + # Shape is set to 1 for solid circles
+  geom_line(aes(y = GBTC, color = 'GBTC')) +
+  geom_point(aes(y = `New 9`, color = 'New 9'), shape = 1) + # Shape is set to 2 for triangles
+  geom_line(aes(y = `New 9`, color = 'New 9')) +
+  scale_color_manual(values = c('GBTC' = 'darkred', 'New 9' = 'darkblue')) +
+  theme_minimal() +
+  labs(color = "") +
+  ylab("Daily Flow (BTC)")
+p4 <- ggplotly(p4, width=12*96, height=8*96)
+saveWidget(p4, file="./plots/outflows_inflows_over_time.html")
